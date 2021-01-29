@@ -43,7 +43,7 @@ labels = ['20km/h limit', '30km/h limit', '50km/h limit', '60km/h limit', '70km/
 # transform = transforms.Compose([transforms.ToTensor(),
 #                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-transform = transforms.Compose([transforms.RandomCrop(32), 
+transform = transforms.Compose([transforms.RandomCrop(26, 27), # TODO
                                  transforms.RandomHorizontalFlip(), 
                                  transforms.ToTensor(), 
                                  transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])])
@@ -65,3 +65,12 @@ print("Train dataset size: ", train_dataset_len)
 
 train_dataset ,valid_dataset = torch.utils.data.random_split(train_dataset, [math.ceil(0.75*train_dataset_len), math.floor(0.25*train_dataset_len)])
 
+train_example_batch = torch.utils.data.DataLoader(train_dataset, batch_size=256, shuffle=True,
+                                num_workers=3, pin_memory=True)
+print("Train dataset batch size: ", len(train_example_batch))
+
+for images, labels in train_example_batch:
+    fig, ax = plt.subplots(figsize=(12, 12))
+    ax.set_xticks([]); ax.set_yticks([])
+    ax.imshow(torchvision.utils.make_grid(images[:64], nrow=8).permute(1, 2, 0).clamp(0,1))
+    break
