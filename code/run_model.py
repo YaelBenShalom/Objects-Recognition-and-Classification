@@ -1,4 +1,5 @@
 import numpy as np
+import argparse
 
 import torch
 import torch.nn as nn
@@ -10,7 +11,8 @@ from torch import Tensor
 
 
 def run_model(model, running_mode='train', train_set=None, valid_set=None, test_set=None,
-              batch_size=1, learning_rate=0.01, n_epochs=1, stop_thr=1e-4, shuffle=True):
+              batch_size=1, learning_rate=0.01, epoch_num=1, criterion=nn.CrossEntropyLoss(),
+              stop_thr=1e-4, shuffle=True):
     """
     This function either trains or evaluates a model.
 
@@ -32,7 +34,7 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
     test_set:       the testing dataset object generated using the class ReadDataset.
     batch_size:     number of training samples fed to the model at each training step.
     learning_rate:  determines the step size in moving towards a local minimum.
-    n_epochs:       maximum number of epoch for training the model.
+    epoch_num:       maximum number of epoch for training the model.
     stop_thr:       if the validation loss from one epoch to the next is less than this value, stop training.
     shuffle:        determines if the shuffle property of the DataLoader is on/off.
 
@@ -75,13 +77,13 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
         if valid_set is not None:
             valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=shuffle)
 
-        for epoch_num in range(n_epochs):
-            model, train_loss, train_accuracy = _train(model, train_loader, optimizer, device=device)
+        for epoch in range(epoch_num):
+            model, train_loss, train_accuracy = _train(model, train_loader, optimizer, criterion, device=device)
             train_loss_list.append(train_loss)
             train_accuracy_list.append(train_accuracy)
 
             if valid_set is not None:
-                new_valid_loss, valid_accuracy = _test(model, valid_loader, device=torch.device('cpu'))
+                new_valid_loss, valid_accuracy = _test(model, valid_loader, criterion, device=device)
                 valid_loss_list.append(new_valid_loss)
                 valid_accuracy_list.append(valid_accuracy)
                 if (valid_loss is not None) and (valid_loss - new_valid_loss < stop_thr):
@@ -103,12 +105,12 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
 
     else:
         test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=shuffle)
-        test_loss, test_accuracy = _test(model, test_loader, device=device)
+        test_loss, test_accuracy = _test(model, test_loader, criterion, device=device)
 
         return test_loss, test_accuracy
 
 
-def _train(model, data_loader, optimizer, device=torch.device('cpu')):
+def _train(model, data_loader, optimizer, criterion, device=torch.device('cpu')):
     """
     This function implements ONE EPOCH of training a neural network on a given dataset.
     I used nn.CrossEntropyLoss() for the loss function.
@@ -125,7 +127,6 @@ def _train(model, data_loader, optimizer, device=torch.device('cpu')):
     train_accuracy: average accuracy on the entire training dataset.
     """
 
-    criterion = nn.CrossEntropyLoss()
     running_loss = 0.0
     correct = 0.0
     total = 0.0
@@ -157,7 +158,7 @@ def _train(model, data_loader, optimizer, device=torch.device('cpu')):
     return model, train_loss, train_accuracy
 
 
-def _test(model, data_loader, device=torch.device('cpu')):
+def _test(model, data_loader, criterion, device=torch.device('cpu')):
     """
     This function evaluates a trained neural network on a validation set or a testing set.
     I used nn.CrossEntropyLoss() for the loss function.
@@ -172,7 +173,6 @@ def _test(model, data_loader, device=torch.device('cpu')):
     test_accuracy:  percentage of correctly classified samples in the validation or testing dataset.
     """
 
-    criterion = nn.CrossEntropyLoss()
     running_loss = 0.0
     correct = 0.0
     total = 0.0

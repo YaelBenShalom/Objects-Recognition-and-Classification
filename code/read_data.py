@@ -20,3 +20,17 @@ class ReadDataset(Dataset):
         if self.max_items:
             return self.max_items
         return len(self.labels)
+
+
+class CustomDataLoader:
+    def __init__(self, data_loader, function):
+        self.data_loader = data_loader
+        self.function = function
+
+    def __len__(self):
+        return len(self.data_loader)
+
+    def __iter__(self):
+        batches = iter(self.data_loader)
+        for b in batches:
+            yield (self.function(*b))
