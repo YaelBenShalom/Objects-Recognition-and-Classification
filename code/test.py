@@ -21,4 +21,4 @@ def predict(model, data_loader, loss_func=nn.CrossEntropyLoss(), device=torch.de
         test_accuracy = np.sum(corrects) / np.sum(nums) * 100
 
         print(f"Test loss: {test_loss:.3f}")
-        print(f"Test accruacy: {test_accuracy:.2f}%")
+        print(f"Test accuracy: {test_accuracy:.2f}%")

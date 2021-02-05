@@ -11,7 +11,7 @@ Yael Ben Shalom, Northwestern University
 
 1. Clone the repository, using the following commands:
     ```
-    git clone https://github.com/YaelBenShalom/ME499-Independent-Project
+    git clone https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification
     ```
 
 2. Download the dataset and extract it into `./data` directory. The dataset can be found on the [INI Benchmark website](https://benchmark.ini.rub.de/?section=gtsrb&subsection=news), or downloaded directly through [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic-signs-data.zip).
