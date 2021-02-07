@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import numpy as np
 
 
-class BasicNet(nn.Module):
+class BaselineNet(nn.Module):
     """
     This class creates a fully connected neural network for classifying traffic signs
     from the GTSRB dataset.
@@ -19,7 +19,7 @@ class BasicNet(nn.Module):
     """
 
     def __init__(self):
-        super(BasicNet, self).__init__()
+        super(BaselineNet, self).__init__()
         input_layer = 3
         layer1 = 120
         layer2 = 84
