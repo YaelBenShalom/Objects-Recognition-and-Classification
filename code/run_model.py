@@ -129,7 +129,7 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
       valid_accuracy_list:  list of accuracy on the entire validation dataset.
     """
 
-    optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+    optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
     valid_accuracy_list = []
     train_loss_list = []
     valid_loss_list = []
@@ -159,7 +159,6 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
                   f"Train loss: {train_loss:.3f}\t"
                   f"Validation loss: {valid_loss:.3f}\t",
                   f"Validation accruacy: {valid_accuracy:.2f}%")
-
     return model, train_loss_list, valid_loss_list, valid_accuracy_list
 
 
