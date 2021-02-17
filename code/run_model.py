@@ -101,7 +101,7 @@ def loss_batch(model, loss_func, x, y, opt=None):
 
 
 def valid_batch(model, loss_func, x, y):
-    output = model(x)
+    output = predict(model, x)
     loss = loss_func(output, y)
     pred = torch.argmax(output, dim=1)
     correct = pred == y.view(*pred.shape)
@@ -129,7 +129,7 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
       valid_accuracy_list:  list of accuracy on the entire validation dataset.
     """
 
-    optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
+    optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.5)
     valid_accuracy_list = []
     train_loss_list = []
     valid_loss_list = []
@@ -187,3 +187,20 @@ def _test(model, test_loader, loss_func=nn.CrossEntropyLoss(), device=torch.devi
         print(f"Test accuracy: {test_accuracy:.2f}%")
 
     return test_loss, test_accuracy
+
+
+def predict(model, features, device=torch.device('cpu')):
+    """
+    This function evaluates a trained neural network on a validation set or a testing set.
+
+    Inputs:
+      model:            trained neural network.
+      features:         the fearures of the testing images .
+
+    Output:
+      prediction:       the prediction of the model.
+    """
+    features = features.to(device)
+    prediction = model(features)
+
+    return prediction
