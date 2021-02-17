@@ -19,6 +19,7 @@ from load_data import load_dataset
 from read_data import ReadDataset
 from run_model import run_model
 from cnn import BaselineNet
+from data_preprocessing import CLAHE_GRAY, preprocess
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -28,14 +29,27 @@ trainset_name = "train.p"
 validset_name = "valid.p"
 testset_name = "test.p"
 
+# preprocess('data')
+# trainset_gray_name = "train_gray.p"
+# validset_gray_name = "valid_gray.p"
+# testset_gray_name = "test_gray.p"
+
 train_features, train_labels = load_dataset(trainset_name, base_folder='data')
 valid_features, valid_labels = load_dataset(validset_name, base_folder='data')
 test_features, test_labels = load_dataset(testset_name, base_folder='data')
+
+# train_gray_features, train_gray_labels = load_dataset(trainset_gray_name, base_folder='data')
+# valid_gray_features, valid_gray_labels = load_dataset(validset_gray_name, base_folder='data')
+# test_gray_features, test_gray_labels = load_dataset(testset_gray_name, base_folder='data')
 
 # Finiding dataset properties
 print(f"train_features shape: {train_features.shape}")
 print(f"train_labels shape: {train_labels.shape}")
 print(f"train dataset size: {len(train_features)}")
+
+# print(f"train_gray_features shape: {train_features.shape}")
+# print(f"train_gray_labels shape: {train_labels.shape}")
+# print(f"train gray dataset size: {len(train_features)}")
 
 print(f"valid_features: {valid_features.shape}")
 print(f"valid_labels: {valid_labels.shape}")
@@ -108,17 +122,17 @@ class_names = { 0: '20km/h limit',
 # plt.savefig('images/Class_Distribution.png')
 # plt.show()
 
-# # Ploting random 40 images from train set
-# plt.figure(figsize=(12, 12))
-# for i in range(40):
-#     feature_index = random.randint(0, train_labels.shape[0])
-#     plt.subplot(6, 8, i+1)
-#     plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9, top=0.92, wspace=0.2, hspace=0.2)
-#     plt.axis('off')
-#     plt.imshow(train_features[feature_index])
-# plt.suptitle('Random Training Images', fontsize=20)
-# plt.savefig('images/Random_Training_Images.png')
-# plt.show()
+# Ploting random 40 images from train set
+plt.figure(figsize=(12, 12))
+for i in range(40):
+    feature_index = random.randint(0, train_labels.shape[0])
+    plt.subplot(6, 8, i+1)
+    plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9, top=0.92, wspace=0.2, hspace=0.2)
+    plt.axis('off')
+    plt.imshow(train_features[feature_index])
+plt.suptitle('Random Training Images', fontsize=20)
+plt.savefig('images/Random_Training_Images.png')
+plt.show()
 
 # # Ploting images for every class from train set
 # plt.figure(figsize=(14, 14))
@@ -152,13 +166,21 @@ stop_threshold = 1e-4
 # Computing data transformation to normalize data
 mean = (0.485, 0.456, 0.406)    # from transforms.Compose example (https://pytorch.org/docs/stable/torchvision/transforms.html)
 std = (0.229, 0.224, 0.225)     # -"-
-transform = transforms.Compose([transforms.ToTensor(), 
-                                transforms.Normalize(mean=mean, std=std)])
+# transform = transforms.Compose([transforms.ToTensor(), 
+#                                 transforms.Normalize(mean=mean, std=std)])
 
-# Reading the datasets
+transform = transforms.Compose([transforms.ToTensor()])
+print(transform)
+
+# # Reading the datasets
 train_dataset = ReadDataset(trainset_name, transform=transform)
 valid_dataset = ReadDataset(validset_name, transform=transform)
 test_dataset = ReadDataset(testset_name, transform=transform)
+
+# # Reading the datasets
+# train_dataset = ReadDataset(trainset_gray_name, transform=transform)
+# valid_dataset = ReadDataset(validset_gray_name, transform=transform)
+# test_dataset = ReadDataset(testset_gray_name, transform=transform)
 
 # Train model
 model, train_loss_list, valid_loss_list, valid_accuracy_list = run_model(model, running_mode='train', train_set=train_dataset,
