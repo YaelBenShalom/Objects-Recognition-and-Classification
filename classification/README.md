@@ -1,11 +1,11 @@
 # Traffic-Sign Classification
 ## ME499 - Independent Project, Winter 2021
-Yael Ben Shalom, Northwestern University
+Yael Ben Shalom, Northwestern University.<br>
 This module is a part of a [Traffic-Sign Recognition and Classification](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification) project.
 
 
 ## Module Overview
-In this module I built and trained a neural network to classify different traffic signs using PyTorch.
+In this module I built and trained a neural network to classify different traffic signs using PyTorch.<br>
 In this project, I used the German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) dataset.
 
 
