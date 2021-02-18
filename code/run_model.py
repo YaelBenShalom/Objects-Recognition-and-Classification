@@ -71,7 +71,9 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
         valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False)
 
         train_loader = CustomDataLoader(train_loader, to_device)
-        valid_loader = CustomDataLoader(valid_loader, to_device)    
+        valid_loader = CustomDataLoader(valid_loader, to_device)
+        # print(f"train_loader len: {len(train_loader)}")
+        # print(f"valid_loader len: {len(valid_loader)}")
 
         return _train(model, train_loader, valid_loader,
                       epoch_num, learning_rate, stop_thr,
@@ -80,6 +82,7 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
     else:
         test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
         test_loader = CustomDataLoader(test_loader, to_device)
+        # print(f"test_loader len: {len(test_loader)}")
 
         return _test(model, test_loader, criterion, device)
 
@@ -101,7 +104,7 @@ def loss_batch(model, loss_func, x, y, opt=None):
 
 
 def valid_batch(model, loss_func, x, y):
-    output = predict(model, x)
+    output = model(x)
     loss = loss_func(output, y)
     pred = torch.argmax(output, dim=1)
     correct = pred == y.view(*pred.shape)
@@ -109,7 +112,7 @@ def valid_batch(model, loss_func, x, y):
 
 
 def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, stop_thr=1e-4,
-        loss_func=nn.CrossEntropyLoss(), device=torch.device('cpu')):
+           loss_func=nn.CrossEntropyLoss(), device=torch.device('cpu')):
     """
     This function implements several epochs of training a neural network on a given dataset.
 
@@ -128,7 +131,6 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
       valid_loss_list:      list of loss value on the entire validation dataset.
       valid_accuracy_list:  list of accuracy on the entire validation dataset.
     """
-
     optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.5)
     valid_accuracy_list = []
     train_loss_list = []
@@ -150,12 +152,12 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
             if (valid_loss is not None) and (valid_loss - new_valid_loss < stop_thr):
                 break
             valid_loss = new_valid_loss
-            
+
             valid_accuracy = np.sum(corrects) / np.sum(nums) * 100
             valid_loss_list.append(valid_loss)
             valid_accuracy_list.append(valid_accuracy)
 
-            print(f"[Epoch {epoch+1}/{epoch_num}] "
+            print(f"[Epoch {epoch + 1}/{epoch_num}] "
                   f"Train loss: {train_loss:.3f}\t"
                   f"Validation loss: {valid_loss:.3f}\t",
                   f"Validation accruacy: {valid_accuracy:.2f}%")
@@ -176,7 +178,6 @@ def _test(model, test_loader, loss_func=nn.CrossEntropyLoss(), device=torch.devi
       test_loss:        average loss value on the entire validation or testing dataset.
       test_accuracy:    percentage of correctly classified samples in the validation or testing dataset.
     """
-
     model.eval()
     with torch.no_grad():
         losses, corrects, nums = zip(*[valid_batch(model, loss_func, x, y) for x, y in test_loader])
@@ -200,7 +201,7 @@ def predict(model, features, device=torch.device('cpu')):
     Output:
       prediction:       the prediction of the model.
     """
-    features = features.to(device)
-    prediction = model(features)
+    output = model(features)
+    prediction = torch.argmax(output, dim=1)
 
     return prediction
