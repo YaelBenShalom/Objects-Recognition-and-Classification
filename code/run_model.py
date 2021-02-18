@@ -1,23 +1,16 @@
 import numpy as np
-import argparse
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.optim as optim
-from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-from torch import Tensor
 
 from read_data import CustomDataLoader
-
-import matplotlib
-import matplotlib.pyplot as plt
 
 
 def run_model(model, running_mode='train', train_set=None, valid_set=None, test_set=None,
               batch_size=1, epoch_num=1, learning_rate=0.01, stop_thr=1e-4,
-              criterion=nn.CrossEntropyLoss(), device=torch.device('cpu'), shuffle=True):
+              criterion=nn.CrossEntropyLoss(), device=torch.device('cpu')):
     """
     This function either trains or evaluates a model.
 
@@ -72,19 +65,16 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
 
         train_loader = CustomDataLoader(train_loader, to_device)
         valid_loader = CustomDataLoader(valid_loader, to_device)
-        # print(f"train_loader len: {len(train_loader)}")
-        # print(f"valid_loader len: {len(valid_loader)}")
 
         return _train(model, train_loader, valid_loader,
                       epoch_num, learning_rate, stop_thr,
-                      loss_func=criterion, device=device)
+                      loss_func=criterion)
 
     else:
         test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
         test_loader = CustomDataLoader(test_loader, to_device)
-        # print(f"test_loader len: {len(test_loader)}")
 
-        return _test(model, test_loader, criterion, device)
+        return _test(model, test_loader, criterion)
 
 
 def to_device(x, y):
@@ -112,7 +102,7 @@ def valid_batch(model, loss_func, x, y):
 
 
 def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, stop_thr=1e-4,
-           loss_func=nn.CrossEntropyLoss(), device=torch.device('cpu')):
+           loss_func=nn.CrossEntropyLoss()):
     """
     This function implements several epochs of training a neural network on a given dataset.
 
@@ -160,11 +150,11 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
             print(f"[Epoch {epoch + 1}/{epoch_num}] "
                   f"Train loss: {train_loss:.3f}\t"
                   f"Validation loss: {valid_loss:.3f}\t",
-                  f"Validation accruacy: {valid_accuracy:.2f}%")
+                  f"Validation accuracy: {valid_accuracy:.2f}%")
     return model, train_loss_list, valid_loss_list, valid_accuracy_list
 
 
-def _test(model, test_loader, loss_func=nn.CrossEntropyLoss(), device=torch.device('cpu')):
+def _test(model, test_loader, loss_func=nn.CrossEntropyLoss()):
     """
     This function evaluates a trained neural network on a validation set or a testing set.
 
@@ -184,19 +174,16 @@ def _test(model, test_loader, loss_func=nn.CrossEntropyLoss(), device=torch.devi
         test_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)
         test_accuracy = np.sum(corrects) / np.sum(nums) * 100
 
-        print(f"Test loss: {test_loss:.3f}")
-        print(f"Test accuracy: {test_accuracy:.2f}%")
-
     return test_loss, test_accuracy
 
 
-def predict(model, features, device=torch.device('cpu')):
+def predict(model, features):
     """
     This function evaluates a trained neural network on a validation set or a testing set.
 
     Inputs:
       model:            trained neural network.
-      features:         the fearures of the testing images .
+      features:         the features of the testing images .
 
     Output:
       prediction:       the prediction of the model.

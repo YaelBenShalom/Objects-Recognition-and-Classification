@@ -1,7 +1,6 @@
 from torch.utils.data.dataset import Dataset
-from torchvision import datasets
-
 from load_data import load_dataset
+
 
 class ReadDataset(Dataset):
     def __init__(self, dataset_name, transform=None, max_items=None):
@@ -33,4 +32,4 @@ class CustomDataLoader:
     def __iter__(self):
         batches = iter(self.data_loader)
         for b in batches:
-            yield (self.function(*b))
+            yield self.function(*b)

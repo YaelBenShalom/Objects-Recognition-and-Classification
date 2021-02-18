@@ -1,36 +1,24 @@
-import os
-import pickle
-# import PIL
 import argparse
-
 import numpy as np
 import random
-import math
-import time
+import cv2
+import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-import torchvision
 import torchvision.transforms as transforms
-from torch import Tensor
 
 from load_data import load_dataset
 from read_data import ReadDataset
 from run_model import run_model, predict
 from cnn import BaselineNet
 
-import matplotlib
-import matplotlib.pyplot as plt
-import cv2
 
-
-def load_argumants(args):
+def load_arguments(args):
     """
     This function loads the image argument.
     If an image was added as argument, the program will predict its class after training and testing the model.
-    If no image was added as argument, the program will only train the model and test the results on the testing dataset.
+    If no image was added as argument, the program will only train and test the results on the datasets.
     Inputs:
       args:                 the input arguments of the program in the form of a dictionary {"image" : <argument>}.
                             if args exist, <argument> is the input image, else <argument> is None.
@@ -73,11 +61,11 @@ def dataset_properties(trainset_name, validset_name, testset_name, class_names):
     # print(f"test_labels: {test_labels.shape}")
     print(f"test dataset size: {len(test_labels)}")
 
-    # Finiding the number of classes in the dataset
+    # Finding the number of classes in the dataset
     classes_num = len(set(train_labels))
     print(f"Number of classes: {classes_num}")
 
-    # Finiding the size of the images in the dataset
+    # Finding the size of the images in the dataset
     image_shape = train_features[0].shape[:2]
     print(f"images shape: {image_shape}")
 
@@ -109,7 +97,6 @@ def dataset_properties(trainset_name, validset_name, testset_name, class_names):
         plt.subplot(6, 8, i + 1)
         plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9, top=0.92, wspace=0.2, hspace=0.2)
         plt.axis('off')
-        # plt.title(f'class {i}')
         plt.title(class_names[i], fontsize=10)
         plt.imshow(train_features[feature_index])
     plt.suptitle('Random training images from different classes', fontsize=20)
@@ -172,6 +159,40 @@ def class_names_fun():
     return class_names
 
 
+def plot_training_results(train_loss_list, valid_loss_list, valid_accuracy_list, epoch_num):
+    """
+    This function plots the results of training the network.
+
+    Inputs:
+      train_loss_list:      list of loss value on the entire training dataset.
+      valid_loss_list:      list of loss value on the entire validation dataset.
+      valid_accuracy_list:  list of accuracy on the entire validation dataset.
+    Output: None
+    """
+    # Plotting training and validation loss vs. epoch number
+    plt.figure()
+    plt.plot(range(len(train_loss_list)), train_loss_list, label='Training Loss')
+    plt.plot(range(len(valid_loss_list)), valid_loss_list, label='Validation Loss')
+    plt.title(f'Training and Validation Loss Vs. Epoch Number ({epoch_num} Epochs)')
+    plt.xlabel('Epoch Number')
+    plt.ylabel('Loss')
+    plt.legend(loc="best")
+    plt.savefig(f"images/Losses ({epoch_num} Epochs).png")
+    plt.show()
+
+    # Plotting validation accuracy vs. epoch number
+    plt.figure()
+    plt.plot(range(len(valid_accuracy_list)), valid_accuracy_list, label='Validation Accuracy')
+    plt.title(f'Validation Accuracy Vs. Epoch Number ({epoch_num} Epochs)')
+    plt.xlabel('Epoch Number')
+    plt.ylabel('Accuracy')
+    plt.xlim([0, len(train_loss_list)])
+    plt.ylim([0, 100])
+    plt.legend(loc="best")
+    plt.savefig(f"images/Accuracy ({epoch_num} Epochs).png")
+    plt.show()
+
+
 def main(args):
     """ Main function of the program
     Inputs:
@@ -207,8 +228,8 @@ def main(args):
     stop_threshold = 1e-4
 
     # Computing data transformation to normalize data
-    mean = (0.485, 0.456, 0.406)  # from transforms.Compose example (https://pytorch.org/docs/stable/torchvision/transforms.html)
-    std = (0.229, 0.224, 0.225)   # -"-
+    mean = (0.485, 0.456, 0.406)    # from https://pytorch.org/docs/stable/torchvision/transforms.html
+    std = (0.229, 0.224, 0.225)     # -"-
     transform = transforms.Compose([transforms.ToTensor(),
                                     transforms.Normalize(mean=mean, std=std)])
 
@@ -216,7 +237,6 @@ def main(args):
     train_dataset = ReadDataset(trainset_name, transform=transform)
     valid_dataset = ReadDataset(validset_name, transform=transform)
     test_dataset = ReadDataset(testset_name, transform=transform)
-
 
     # Train the network
     model, train_loss_list, valid_loss_list, valid_accuracy_list = run_model(model, running_mode='train',
@@ -226,20 +246,25 @@ def main(args):
                                                                              batch_size=batch_size, epoch_num=epoch_num,
                                                                              learning_rate=learning_rate,
                                                                              stop_thr=stop_threshold,
-                                                                             criterion=criterion, device=device,
-                                                                             shuffle=True)
+                                                                             criterion=criterion, device=device)
 
     # Test the network
     test_loss, test_accuracy = run_model(model, running_mode='test', train_set=train_dataset,
                                          valid_set=valid_dataset, test_set=test_dataset,
                                          batch_size=batch_size, epoch_num=epoch_num,
                                          learning_rate=learning_rate, stop_thr=stop_threshold,
-                                         criterion=criterion, device=device, shuffle=True)
+                                         criterion=criterion, device=device)
+
+    print(f"Test loss: {test_loss:.3f}")
+    print(f"Test accuracy: {test_accuracy:.2f}%")
+
+    # Plot the results of training the network
+    plot_training_results(train_loss_list, valid_loss_list, valid_accuracy_list, epoch_num)
 
     # Check if image argument exists
     if args["image"]:
         # Load the image argument
-        test_image = load_argumants(args)
+        test_image = load_arguments(args)
 
         # Transform tested image
         test_image_transform3d = transform(test_image)
@@ -257,34 +282,6 @@ def main(args):
         plt.suptitle('Image Classification', fontsize=18)
         plt.savefig('images/Image_Classification')
         plt.show()
-
-    # # Ploting class distribution for training set
-    # fig, ax = plt.subplots()
-    # ax.bar(range(classes_num), np.bincount(train_labels))
-    # ax.set_title('Image Classification', fontsize=20)
-    # plt.savefig('images/image_classification.png')
-    # plt.show()
-
-    # plt.figure()
-    # plt.plot(range(len(train_loss_list)), train_loss_list, label='Training Loss')
-    # plt.plot(range(len(valid_loss_list)), valid_loss_list, label='Validation Loss')
-    # plt.title(f'Training and Validation Loss Vs. Epoch Number ({epoch_num} Epochs)')
-    # plt.xlabel('Epoch Number')
-    # plt.ylabel('Loss')
-    # plt.legend(loc="best")
-    # plt.savefig(f"images/Losses ({epoch_num} Epochs).png")
-    # plt.show()
-    #
-    # plt.figure()
-    # plt.plot(range(len(valid_accuracy_list)), valid_accuracy_list, label='Validation Accuracy')
-    # plt.title(f'Validation Accuracy Vs. Epoch Number ({epoch_num} Epochs)')
-    # plt.xlabel('Epoch Number')
-    # plt.ylabel('Accuracy')
-    # plt.xlim([0, len(train_loss_list)])
-    # plt.ylim([0, 100])
-    # plt.legend(loc="best")
-    # plt.savefig(f"images/Accuracy ({epoch_num} Epochs).png")
-    # plt.show()
 
 
 if __name__ == "__main__":

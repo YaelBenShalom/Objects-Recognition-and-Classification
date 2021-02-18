@@ -1,9 +1,7 @@
-import numpy as np
 import os
-import struct
-from array import array as pyarray
 import pickle
 import cv2
+
 
 def load_dataset(dataset_name, base_folder='data'):
     """
