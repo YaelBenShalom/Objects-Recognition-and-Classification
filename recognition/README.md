@@ -1,10 +1,11 @@
 # Traffic-Sign Recognition
 ## ME499 - Independent Project, Winter 2021
 Yael Ben Shalom, Northwestern University
+This module is a part of a [Traffic-Sign Recognition and Classification](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification) project.
 
 
-## Project Overview
-In this part I built and trained a neural network to detect and classify different traffic signs using Faster-R-CNN.<br>
+## Module Overview
+In this module I built and trained a neural network to detect and classify different traffic signs using Faster-R-CNN.<br>
 This project is an extension of [Faster-R-CNN](https://github.com/rbgirshick/py-faster-rcnn) to detect and classify traffic signs.<br>
 In this project, I used the German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) dataset.
 

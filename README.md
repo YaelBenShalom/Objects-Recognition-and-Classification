@@ -4,6 +4,6 @@ Yael Ben Shalom, Northwestern University
 
 
 ## Project Overview
-This project contains 2 parts:
-1. **Traffic signs classification** - In this part I built and trained a neural network to classify different traffic signs using PyTorch.
-2. **Traffic signs recognision** - In this part I built and trained a neural network to detect and classify different traffic signs using Faster-R-CNN.
+This project contains 2 modules:
+1. [**Traffic signs classification**](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/classification) - In this module I built and trained a neural network to classify different traffic signs using PyTorch.
+2. [**Traffic signs recognition**](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/recognition) - In this module I built and trained a neural network to detect and classify different traffic signs using Faster-R-CNN.
