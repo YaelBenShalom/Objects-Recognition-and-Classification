@@ -147,7 +147,7 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
             valid_loss_list.append(valid_loss)
             valid_accuracy_list.append(valid_accuracy)
 
-            print(f"[Epoch {epoch + 1}/{epoch_num}] "
+            print(f"Epoch: {epoch + 1}/{epoch_num}\t"
                   f"Train loss: {train_loss:.3f}\t"
                   f"Validation loss: {valid_loss:.3f}\t",
                   f"Validation accuracy: {valid_accuracy:.2f}%")

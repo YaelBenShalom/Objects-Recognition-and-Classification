@@ -210,7 +210,7 @@ def main(args):
     class_names = class_names_fun()
 
     # Visualizing the dataset
-    # dataset_properties(trainset_name, validset_name, testset_name, class_names)
+    dataset_properties(trainset_name, validset_name, testset_name, class_names)
 
     # Define the device parameters
     torch.manual_seed(1)
@@ -289,5 +289,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--image", help="path to the input image")
     args = vars(parser.parse_args())
-    # print(f"arguments: {args}")
     main(args)

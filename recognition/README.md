@@ -22,7 +22,14 @@ In this project, I used the German Traffic Sign Recognition Benchmark ([GTSRB](h
 
 
 ### Quickstart Guide
-...
+
+Run the recognition program:
+1. To train the program on the dataset and test it on a specific video, copy the video into `./input_video` directory and run the following command from the root directory:
+    ```
+    python code/recognition.py --video <video-name>
+    ```
+    Where `<video-name>` is the name of the video (including video type).
+
 
 
 ## Project Architecture

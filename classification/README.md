@@ -28,11 +28,11 @@ Run the classification program:
     python code/classification.py
     ```
 
-2. To train the program on the dataset and test it of a specific image, download the image to the root directory and run the following command from the root directory:
+2. To train the program on the dataset and test it on a specific image, copy the image to the root directory and run the following command from the root directory:
     ```
     python code/classification.py --image <image-name>
     ```
-    Where `<image-name>` in the name of the image (including image type).
+    Where `<image-name>` is the name of the image (including image type).
 
 
 ## Project Architecture
