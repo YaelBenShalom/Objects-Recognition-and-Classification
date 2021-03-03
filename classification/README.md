@@ -34,6 +34,11 @@ Run the classification program:
     ```
     Where `<image-name>` is the name of the image (including image type).
 
+3. To to use an existing model and test it on a specific image, copy the image to the root directory and run the following command from the root directory:
+    ```
+    python code/classification.py --image <image-name> --model <model-name>
+    ```
+    Where `<model-name>` is the name of the model.
 
 ## Project Architecture
 ...

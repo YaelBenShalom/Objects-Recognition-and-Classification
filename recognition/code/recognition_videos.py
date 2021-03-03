@@ -22,7 +22,7 @@ def main(args):
     ############################################################
 
     # Loading trained CNN model to use it later when classifying from 4 groups into one of 43 classes
-    model = load_model("model/model-5x5 (1).h5")
+    model = load_model("model/model-5x5.h5")
 
     # Loading mean image to use for preprocessing further
     with open("data/traffic-signs-preprocessed/mean_image_rgb.pickle", 'rb') as f:
@@ -220,7 +220,7 @@ def main(args):
     
     print(f"Number of frames: {current_frame}")
     print(f"Total processing time: {current_time:.5f} seconds")
-    print(f"Average FPS: {round((current_frame / current_time), 1)}")
+    print(f"Average frames per second: {round((current_frame / current_time), 1)}")
 
 
 
