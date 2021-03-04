@@ -223,10 +223,10 @@ def main(args):
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
 
-    # Defi ne the network
+    # Define the model
     model = BaselineNet().to(device)
 
-    # Define the network
+    # Define the training properties
     epoch_num = 100
     criterion = nn.CrossEntropyLoss()
     learning_rate = 1e-3
