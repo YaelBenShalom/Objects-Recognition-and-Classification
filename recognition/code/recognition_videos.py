@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 import pickle
 from keras.models import load_model
 
-import torch
-import torch.nn as nn
-from cnn import BaselineNet
+# import torch
+# import torch.nn as nn
+# from cnn import BaselineNet
 
 def set_network(config_path, weights_path):
     """
@@ -44,22 +44,18 @@ def set_network(config_path, weights_path):
     return net, layers_names_output
 
 
-def set_output_stream(video):
+def set_output_stream(video, frame_height, frame_width):
     """
     This function defines the output stream of the video.
 
     Inputs:
       video:                    the processed video.
+      frame_width:              the width of the frame.
+      frame_height:             the height of the frame.
 
     Output:
       output_video:             the output stream of the video.
-      frame_width:              the width of the frame.
-      frame_height:             the height of the frame.
     """
-
-    # Finding frame size
-    frame_height, frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH)), int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    print(f"frame_height: {frame_height}\t frame_width: {frame_width}")
 
     # Finding the video's fps rate
     fps = video.get(cv2.CAP_PROP_FPS)
@@ -71,7 +67,7 @@ def set_output_stream(video):
     output_video = cv2.VideoWriter(output_video_name, fourcc, fps,
                                    (frame_width, frame_height), True)
 
-    return output_video, frame_height, frame_width
+    return output_video
 
 
 def get_predictions(net_output, confidence_threshold, nms_threshold,
@@ -231,9 +227,6 @@ def main(args):
     # model = BaselineNet().to(device)
     # model.load_state_dict(torch.load(model_path, map_location=device))
 
-
-
-
     # Trained weights can be found in the course mentioned above
     weights_path = "data/traffic-signs-dataset-in-yolo-format/signs.weights"
     config_path = "data/traffic-signs-dataset-in-yolo-format/yolov3_ts_test.cfg"
@@ -252,25 +245,24 @@ def main(args):
         # Reading input video
         video = cv2.VideoCapture(args["video"])
 
-        # Set video output stream
-        output_video, frame_height, frame_width = set_output_stream(video)
-
         frame_tot = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
         print(f"video length: {frame_tot} frames")
 
         # Initializing frame and processing time counters
         current_frame, current_time = 0, 0
 
+        # Capturing frames one-by-one
+        ret, frame = video.read()
+
+        # Finding frame size
+        frame_height, frame_width = frame.shape[:2]
+        print(f"frame_height: {frame_height}\t frame_width: {frame_width}")
+
+        # Set video output stream
+        output_video = set_output_stream(video, frame_height, frame_width)
+
         # Processing the video frame-by-frame
         while video.isOpened():
-
-            # Capturing frames one-by-one
-            ret, frame = video.read()
-
-            # If the frame was not retrieved
-            if not ret:
-                print("Stream end. Exiting ...")
-                break
 
             # # Finding frame size
             # frame_height, frame_width = frame.shape[:2]
@@ -302,12 +294,20 @@ def main(args):
 
             # Checking if there is any detected object been left
             if len(results) > 0:
-                # Drawing boxes and predictions on frame
+                # # Drawing boxes and predictions on frame
                 frame = draw_markers(frame, results, bounding_boxes, scalefactor,
                                      mean, class_numbers, model, labels, colors)
 
             # Write processed current frame to the file
             output_video.write(frame)
+
+            # Capturing frames one-by-one
+            ret, frame = video.read()
+
+            # If the frame was not retrieved
+            if not ret:
+                print("Stream end. Exiting ...")
+                break
 
         # Release everything if job is finished
         video.release()
