@@ -8,9 +8,13 @@ import matplotlib.pyplot as plt
 import pickle
 from keras.models import load_model
 
-# import torch
-# import torch.nn as nn
+import torch
+import torch.nn as nn
 # from cnn import BaselineNet
+import torchvision.transforms as transforms
+
+# from run_model import run_model, predict
+
 
 def set_network(config_path, weights_path):
     """
@@ -18,12 +22,12 @@ def set_network(config_path, weights_path):
     network's layers.
 
     Inputs:
-      config_path:              path to test configuration.
-      weights_path:             path to model's weights.
+        config_path:            path to test configuration.
+        weights_path:           path to model's weights.
 
     Output:
-      net:                      the network.
-      layers_names_output:      the names of all YOLO v3 layers.
+        net:                    the network.
+        layers_names_output:    the names of all YOLO v3 layers.
     """
     # Loading trained YOLO v3 weights and cfg configuration file by 'dnn' library from OpenCV
     net = cv2.dnn.readNetFromDarknet(config_path, weights_path)
@@ -49,12 +53,12 @@ def set_output_stream(video, frame_height, frame_width):
     This function defines the output stream of the video.
 
     Inputs:
-      video:                    the processed video.
-      frame_width:              the width of the frame.
-      frame_height:             the height of the frame.
+        video:                  the processed video.
+        frame_width:            the width of the frame.
+        frame_height:           the height of the frame.
 
     Output:
-      output_video:             the output stream of the video.
+        output_video:           the output stream of the video.
     """
 
     # Finding the video's fps rate
@@ -70,6 +74,28 @@ def set_output_stream(video, frame_height, frame_width):
     return output_video
 
 
+def class_names_fun(data_dir):
+    """
+    This function returns a dictionary with the classes numbers and names.
+
+    Inputs: None
+
+    Output:
+      class_names:          a dictionary with the classes numbers and names.
+    """
+    # Class names path
+    class_names_path = os.path.join(data_dir, "label_names.csv")
+    class_names_rows = open(class_names_path).read().strip().split("\n")[1:]
+
+    # Defining class names dictionary
+    class_names = {}
+    for row in class_names_rows:
+        label, label_name = row.strip().split(",")
+        class_names[int(label)] = label_name
+
+    return class_names
+
+
 def get_predictions(net_output, confidence_threshold, nms_threshold,
                     frame_width, frame_height):
     """
@@ -77,15 +103,15 @@ def get_predictions(net_output, confidence_threshold, nms_threshold,
     confidences, and class numbers lists.
 
     Inputs:
-      net_output:               the network output for the input blob.
-      confidence_threshold:     the minimum probability threshold.
-      frame_width:              the width of the frame.
-      frame_height:             the height of the frame.
+        net_output:             the network output for the input blob.
+        confidence_threshold:   the minimum probability threshold.
+        frame_width:            the width of the frame.
+        frame_height:           the height of the frame.
 
     Output:
-      bounding_boxes:           list of bounding boxes.
-      confidences:              list of confidences in the predictions.
-      class_numbers:            list of class numbers.
+        bounding_boxes:         list of bounding boxes.
+        confidences:            list of confidences in the predictions.
+        class_numbers:          list of class numbers.
     """
 
     # Lists for detected bounding boxes, confidences and class's number
@@ -134,26 +160,26 @@ def get_predictions(net_output, confidence_threshold, nms_threshold,
     return results, bounding_boxes, class_numbers
 
 
-def draw_markers(frame, results, bounding_boxes, scalefactor, mean,
+def draw_markers(frame, results, bounding_boxes, scale_factor, mean,
                  class_numbers, model, labels, colors):
     """
     This function draws the bounding boxes and the predicted class on the current frame.
 
     Inputs:
-      frame:                    the current frame.
-      results:                  the features detected in the current frame.
-      bounding_boxes:           the bounding boxes surrounding the detected features.
-      scalefactor:              the frame scaling factor.
-      mean:                     the mean image.
-      class_numbers:            list of class numbers.
-      model:                    the trained CNN model.
-      labels:                   the labels' names.
-      colors:                   colors' list for the bounding boxes.
+        frame:                  the current frame.
+        results:                the features detected in the current frame.
+        bounding_boxes:         the bounding boxes surrounding the detected features.
+        scale_factor:           the frame scaling factor.
+        mean:                   the mean image.
+        class_numbers:          list of class numbers.
+        model:                  the trained CNN model.
+        labels:                 the labels' names.
+        colors:                 colors' list for the bounding boxes.
 
     Output:
-      bounding_boxes:           list of bounding boxes.
-      confidences:              list of confidences in the predictions.
-      class_numbers:            list of class numbers.
+        bounding_boxes:         list of bounding boxes.
+        confidences:            list of confidences in the predictions.
+        class_numbers:          list of class numbers.
     """
 
     # Going through indexes of results
@@ -170,18 +196,30 @@ def draw_markers(frame, results, bounding_boxes, scalefactor, mean,
 
         else:
             # Getting preprocessed blob with Traffic Sign of needed shape
-            blob_ts = cv2.dnn.blobFromImage(frame_ts, scalefactor, size=(32, 32), swapRB=True, crop=False)
-            
+            blob_ts = cv2.dnn.blobFromImage(frame_ts, scale_factor, size=(32, 32), swapRB=True, crop=False)
+
             blob_ts[0] = blob_ts[0, :, :, :] - mean["mean_image_rgb"]
             blob_ts = blob_ts.transpose(0, 2, 3, 1)
-
-            # print("blob_ts.shape: ", blob_ts.shape)
 
             # Feeding to the Keras CNN model to get predicted label among 43 classes
             scores = model.predict(blob_ts)
             # print("scores: ", scores)
+
             # Getting the class with maximum value
             prediction = np.argmax(scores)
+            # print("prediction: ", prediction)
+
+            # # Transform tested image
+            # blob_ts_tensor = torch.from_numpy(blob_ts)
+            # blob_ts_reshaped_tensor = torch.transpose(blob_ts_tensor, 1, 3)
+
+            # # Feeding to the Keras CNN model to get predicted label among 43 classes
+            # scores = model(blob_ts_reshaped_tensor)
+            # print("scores: ", scores)
+
+            # # Getting the class with maximum value
+            # prediction = int(torch.argmax(scores, dim=1))
+            # print("prediction: ", prediction)
 
             # Color for current bounding box
             color_box_current = colors[class_numbers[i]].tolist()
@@ -191,7 +229,7 @@ def draw_markers(frame, results, bounding_boxes, scalefactor, mean,
                           color_box_current, 2)
 
             # Putting text with label and confidence on the original image
-            cv2.putText(frame, labels["SignName"][prediction], (x_min, y_min - 5),
+            cv2.putText(frame, labels[prediction], (x_min, y_min - 5),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, color_box_current, 2)
 
     return frame
@@ -200,36 +238,36 @@ def draw_markers(frame, results, bounding_boxes, scalefactor, mean,
 def main(args):
     """ Main function of the program
     Inputs:
-      args:                 the input arguments of the program in the form of a dictionary {"video" : <argument>}.
+        args:               the input arguments of the program in the form of a dictionary {"video" : <argument>}.
                             if args exist, <argument> is the input video, else <argument> is None.
     Output: None
     """
 
-    # Reading csv file with labels' names
-    labels = pd.read_csv("data/traffic-signs-preprocessed/label_names.csv")
-    print("labels:\n", labels)
+    # Define dataset directory
+    data_dir  = "data"
+
+    # Finding dataset properties
+    labels = class_names_fun(data_dir)
 
     # Loading mean image to use for preprocessing further
-    with open("data/traffic-signs-preprocessed/mean_image_rgb.pickle", 'rb') as f:
+    with open("data/mean_image_rgb.pickle", 'rb') as f:
         mean = pickle.load(f, encoding='latin1')
 
     # Loading trained CNN model to use it later when classifying from 4 groups into one of 43 classes
     model = load_model("model/model-5x5.h5")
 
-
-
-    # Define the device parameters
+    # # Define the device parameters
     # torch.manual_seed(1)
     # use_cuda = torch.cuda.is_available()
     # device = torch.device("cuda" if use_cuda else "cpu")
 
-    # model_path = os.path.abspath("model")
+    # model_path = os.path.abspath("model/model")
     # model = BaselineNet().to(device)
     # model.load_state_dict(torch.load(model_path, map_location=device))
 
     # Trained weights can be found in the course mentioned above
-    weights_path = "data/traffic-signs-dataset-in-yolo-format/signs.weights"
-    config_path = "data/traffic-signs-dataset-in-yolo-format/yolov3_ts_test.cfg"
+    weights_path = "weights/signs.weights"
+    config_path = "weights/yolov3_ts_test.cfg"
 
     # Setting the network
     net, layers_names_output = set_network(config_path, weights_path)
@@ -263,16 +301,12 @@ def main(args):
 
         # Processing the video frame-by-frame
         while video.isOpened():
-
-            # # Finding frame size
-            # frame_height, frame_width = frame.shape[:2]
-
             start = time.time()
 
-            # Finding blob from current frame
-            scalefactor = 1 / 255.0
+            # Creating blob in current frame
+            scale_factor = 1 / 255.0
             size = (416, 416)
-            blob = cv2.dnn.blobFromImage(frame, scalefactor, size, swapRB=True, crop=False)
+            blob = cv2.dnn.blobFromImage(frame, scale_factor, size, swapRB=True, crop=False)
 
             # Forward pass with blob through output layers
             net.setInput(blob)
@@ -295,7 +329,7 @@ def main(args):
             # Checking if there is any detected object been left
             if len(results) > 0:
                 # # Drawing boxes and predictions on frame
-                frame = draw_markers(frame, results, bounding_boxes, scalefactor,
+                frame = draw_markers(frame, results, bounding_boxes, scale_factor,
                                      mean, class_numbers, model, labels, colors)
 
             # Write processed current frame to the file
@@ -324,4 +358,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--video", help="path to the input video")
     args = vars(parser.parse_args())
+
+    args = {"video": 'input_video/traffic-sign-to-test.mp4'}
+
     main(args)

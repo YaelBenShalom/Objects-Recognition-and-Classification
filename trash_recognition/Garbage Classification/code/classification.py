@@ -7,8 +7,9 @@ import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import random_split
 
 from load_data import load_dataset
 from read_data import ReadDataset
@@ -115,16 +116,14 @@ def class_names_fun(data_dir):
     Output:
       class_names:          a dictionary with the classes numbers and names.
     """
-    # Class names path
-    class_names_path = os.path.join(data_dir, "label_names.csv")
-    class_names_rows = open(class_names_path).read().strip().split("\n")[1:]
+    # Class names
+    classes = os.listdir(data_dir)
 
     # Defining class names dictionary
     class_names = {}
-    for row in class_names_rows:
-        label, label_name = row.strip().split(",")
-        class_names[int(label)] = label_name
-    
+    for i in range(len(classes)):
+        class_names[i] = classes[i]
+    print("class_names: ", class_names)
     return class_names
 
 
@@ -172,45 +171,50 @@ def main(args):
     """
 
     # Define dataset directory
-    data_dir  = "data"
+    data_dir  = "data/Garbage classification"
 
-    # Define dataset files
-    trainset_name = "train.p"
-    validset_name = "valid.p"
-    testset_name = "test.p"
+    # # Define dataset files
+    # trainset_name = "train.p"
+    # validset_name = "valid.p"
+    # testset_name = "test.p"
 
     # Finding dataset properties
     class_names = class_names_fun(data_dir)
 
-    # Visualizing the dataset
-    dataset_properties(trainset_name, validset_name, testset_name, class_names, data_dir)
+    # # Visualizing the dataset
+    # dataset_properties(trainset_name, validset_name, testset_name, class_names, data_dir)
 
     # Define the device parameters
-    torch.manual_seed(1)
+    torch.manual_seed(17)
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
 
     # Define the model
-    model = BaselineNet().to(device)
-
+    model = ResNet()
+    
     # Define the training properties
     epoch_num = 100
     criterion = nn.CrossEntropyLoss()
-    learning_rate = 1e-3
-    batch_size = 64
+    learning_rate = 5.5e-5
+    batch_size = 32
     stop_threshold = 1e-4
 
     # Computing data transformation to normalize data
     mean = (0.485, 0.456, 0.406)    # from https://pytorch.org/docs/stable/torchvision/transforms.html
     std = (0.229, 0.224, 0.225)     # -"-
     transform = transforms.Compose([transforms.ToTensor(),
-                                    transforms.Resize((32, 32)),
-                                    transforms.Normalize(mean=mean, std=std)])
+                                          transforms.Resize((32, 32)),
+                                          transforms.RandomHorizontalFlip(),
+                                          transforms.RandomRotation(180),
+                                          transforms.Normalize(mean=mean, std=std)])
 
-    # Reading the datasets
-    train_dataset = ReadDataset(trainset_name, transform=transform)
-    valid_dataset = ReadDataset(validset_name, transform=transform)
-    test_dataset = ReadDataset(testset_name, transform=transform)
+    dataset = ImageFolder(data_dir, transform=transform)
+
+    # Split the dataset to 3 groups - train, validation, test
+    dataset_len = len(dataset)
+    dataset_ratio = [0.6, 0.3, 0.1]
+    dataset_split = [round(element * dataset_len) for element in dataset_ratio]
+    train_dataset, valid_dataset, test_dataset = random_split(dataset, dataset_split)
 
     # If no input model - training a new model
     if not args["model"]:
@@ -232,7 +236,7 @@ def main(args):
         # Save the trained model
         torch.save(model.state_dict(), model_path)
 
-    # If input model - load the existing model
+    # # If input model - load the existing model
     else:
         # Defining the model
         model_path = os.path.abspath(args["model"])
@@ -240,6 +244,12 @@ def main(args):
         # Load the trained model
         model.load_state_dict(torch.load(model_path, map_location=device))
 
+        params = []
+        for param in model.parameters():
+            params.append(param.view(-1))
+        params = torch.cat(params)
+        print("params.shape: ", params.shape)
+        
     # Test the network
     test_loss, test_accuracy = run_model(model, running_mode='test', train_set=train_dataset,
                                          valid_set=valid_dataset, test_set=test_dataset,

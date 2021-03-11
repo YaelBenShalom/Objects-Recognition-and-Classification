@@ -60,8 +60,8 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
     """
 
     if running_mode == 'train':
-        train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
-        valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False)
+        train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers = 4, pin_memory = True)
+        valid_loader = DataLoader(valid_set, batch_size=2*batch_size, shuffle=False, num_workers = 4, pin_memory = True)
 
         train_loader = CustomDataLoader(train_loader, to_device)
         valid_loader = CustomDataLoader(valid_loader, to_device)
@@ -123,6 +123,7 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
     """
     # optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.5)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
     valid_accuracy_list = []
     train_loss_list = []
     valid_loss_list = []
