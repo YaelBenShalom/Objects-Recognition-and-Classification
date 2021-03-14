@@ -5,8 +5,8 @@ This module is a part of a [Traffic-Sign Recognition and Classification](https:/
 
 
 ## Module Overview
-In this module I built and trained a neural network to classify different traffic signs using PyTorch.<br>
-In this project, I used the [Garbage Classification Dataset](https://www.kaggle.com/asdasdasasdas/garbage-classification).
+In this module I built and trained a neural network to classify different recycable objects using PyTorch.<br>
+I based my program on the [Garbage Classification Dataset](https://www.kaggle.com/asdasdasasdas/garbage-classification).
 
 
 ## User Guide
@@ -39,21 +39,21 @@ Run the classification program:
     ```
     python code/classification.py --image <image-name> --model <model-name>
     ```
-    Where `<model-name>` is the name of the trained model.<br>
+    Where `<model-name>` is the name of the trained model.
 
 
 <br>The program output when running it on the example image:
 
 The loss plot:<br>
-        ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
+    ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
 
 
 The accuracy plot:<br>
-        ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
 
 
 The output image (with the correct prediction):<br>
-        ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
 
 
 ## Dataset

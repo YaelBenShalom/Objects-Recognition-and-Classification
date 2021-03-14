@@ -6,7 +6,7 @@ This module is a part of a [Traffic-Sign Recognition and Classification](https:/
 
 ## Module Overview
 In this module I built and trained a neural network to classify different traffic signs using PyTorch.<br>
-In this project, I used the German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) dataset.
+I based my program on the German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) dataset.
 
 
 ## User Guide
@@ -32,13 +32,14 @@ Run the classification program:
     ```
     python code/classification.py --image <image-name>
     ```
-    Where `<image-name>` is the name of the image (including image type).
+    Where `<image-name>` is the name of the image (including image type).<br>
+    The trained model will be saved in the root directory as `/model`.
 
 3. To to use an existing model and test it on a specific image, copy the image to the root directory and run the following command from the root directory:
     ```
     python code/classification.py --image <image-name> --model <model-name>
     ```
-    Where `<model-name>` is the name of the model.
+    Where `<model-name>` is the name of the trained model.
 
 
 ## Dataset
