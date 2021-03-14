@@ -45,13 +45,13 @@ Run the classification program:
 The program output when running it on the example image:
 
 The loss plot:
-[Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
+    ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
 
 The accuracy plot:
-[Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
 
 The output image (with the correct prediction):
-[Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
 
 
 ## Dataset
