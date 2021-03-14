@@ -17,8 +17,7 @@ In this project, I used the ([Garbage Classification Dataset](https://www.kaggle
     git clone https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/trash_recognition/trash_classification
     ```
 
-2. Download the dataset and extract it into `./data` directory. The dataset can be found on [Garbage Classification](https://www.kaggle.com/asdasdasasdas/garbage-classification), or downloaded directly through [here](https://www.kaggle.com/asdasdasasdas/garbage-classification/download).
-
+2. Extract the dataset located in the `./data` directory.
 
 
 ### Quickstart Guide
