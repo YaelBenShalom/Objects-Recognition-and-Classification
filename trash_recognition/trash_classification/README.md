@@ -42,18 +42,18 @@ Run the classification program:
     Where `<model-name>` is the name of the trained model.<br>
 
 
-The program output when running it on the example image:
+<br>The program output when running it on the example image:
 
 The loss plot:<br>
-    ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
+        ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Losses%20(100%20Epochs).png)
 
 
 The accuracy plot:<br>
-    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
+        ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Accuracy%20(100%20Epochs).png)
 
 
 The output image (with the correct prediction):<br>
-    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
+        ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/trash_recognition/trash_classification/images/Image_Classification.png)
 
 
 ## Dataset
