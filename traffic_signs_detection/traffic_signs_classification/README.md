@@ -68,4 +68,4 @@ The benchmark has the following properties:
 
 The dataset can be found on the [INI Benchmark website](https://benchmark.ini.rub.de/?section=gtsrb&subsection=news), or downloaded directly through [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic-signs-data.zip).
 
-![The German Traffic Sign Recognition Benchmark](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition/images/dataset.png)
+![The German Traffic Sign Recognition Benchmark](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/dataset.png)
