@@ -42,6 +42,20 @@ Run the classification program:
     Where `<model-name>` is the name of the trained model.
 
 
+<br>The program output when running it on the example image:
+
+The loss plot:<br>
+    ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Losses%20(100%20Epochs).png)
+
+
+The accuracy plot:<br>
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Accuracy%20(100%20Epochs).png)
+
+
+The output image (with the correct prediction):<br>
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Image_Classification.png)
+
+
 ## Dataset
 
 The German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) is a large multi-category classification benchmark. It was used in a competition at the International Joint Conference on Neural Networks (IJCNN) 2011.
@@ -53,3 +67,5 @@ The benchmark has the following properties:
 4. Large, lifelike database.
 
 The dataset can be found on the [INI Benchmark website](https://benchmark.ini.rub.de/?section=gtsrb&subsection=news), or downloaded directly through [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic-signs-data.zip).
+
+![The German Traffic Sign Recognition Benchmark](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition/images/dataset.png)
