@@ -9,7 +9,7 @@ In this module I trained a neural network to detect and classify different traff
 I based my program on the German Traffic Sign Detection Benchmark ([GTSBB](https://benchmark.ini.rub.de/gtsdb_news.html)) dataset.
 
 An example of output video:<br>
-    ![Traffic-Sign Recognition](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition/images/traffic-sign.gif)
+    ![Traffic-Sign Recognition](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_recognition/images/traffic-sign.gif?raw=true)
 
 
 ## User Guide
@@ -46,4 +46,4 @@ The benchmark has the following properties:
 
 The dataset can be found on the [INI Benchmark website](https://benchmark.ini.rub.de/?section=gtsrb&subsection=news), or downloaded directly through [here](https://sid.erda.dk/public/archives/daaeac0d7ce1152aea9b61d9f1e19370/published-archive.html).
 
-![The German Traffic Sign Detection Benchmark](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition/images/dataset.png)
+![The German Traffic Sign Detection Benchmark](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_recognition/images/dataset.png?raw=true)
