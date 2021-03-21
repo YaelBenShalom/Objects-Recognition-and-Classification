@@ -5,7 +5,7 @@ This module is a part of a [Traffic-Sign Recognition and Classification](https:/
 
 
 ## Module Overview
-In this module I trained a neural network to detect and classify different traffic signs using PyTorch, YOLOv3 and OpenCV.<br>
+In this module, I trained a neural network to detect and classify different traffic signs using PyTorch, YoloV5 and OpenCV.<br>
 I based my program on the German Traffic Sign Detection Benchmark ([GTSBB](https://benchmark.ini.rub.de/gtsdb_news.html)) dataset.
 
 An example of output video:<br>
