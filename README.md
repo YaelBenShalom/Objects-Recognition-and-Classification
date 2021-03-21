@@ -1,4 +1,4 @@
-# Traffic-Sign Recognition and Classification
+# Objects Recognition and Classification
 ## ME499 - Independent Project, Winter 2021
 Yael Ben Shalom, Northwestern University.
 

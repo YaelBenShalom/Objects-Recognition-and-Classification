@@ -1,7 +1,7 @@
 # Trash Recognition
 ## ME499 - Independent Project, Winter 2021
 Yael Ben Shalom, Northwestern University.<br>
-This module is a part of a [Traffic-Sign Recognition and Classification](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification) project.
+This module is a part of a [Objects Recognition and Classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification) project.
 
 
 ## Module Overview
@@ -9,13 +9,16 @@ In this module I trained a neural network to detect and classify different recyc
 I based my program on the Trash Annotations in Context ([TACO](http://tacodataset.org/)) dataset.<br>
 The TACO dataset contains ~60 different classes, but in this project I only detect 10 different objects.
 
+An example of output video:<br>
+    ![Trash Recognition](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/trash_detection/trash_recognition/images/real-time%20detection2.gif)
+
 
 ## User Guide
 ### Program Installation
 
 1. Clone the repository, using the following commands:
     ```
-    git clone https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/trash_recognition/trash_recognition
+    git clone https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/trash_recognition/trash_recognition
     ```
 
 2. Download the dataset and extract it into `./data` directory. The dataset can be found on the [TACO dataset website](http://tacodataset.org/), or downloaded directly through [here](https://www.kaggle.com/kneroma/tacotrashdataset/download).
@@ -68,6 +71,9 @@ After training the model, run the recognition program:
     python code/recognition_videos.py --video <video-name>
     ```
     Where `<video-name>` is the name of the video (including video type).
+
+
+    ![Trash Recognition](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/trash_detection/trash_recognition/images/detecting_baxter.gif)
 
 
 ## Dataset

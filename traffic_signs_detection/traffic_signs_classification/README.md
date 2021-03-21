@@ -1,7 +1,7 @@
 # Traffic-Sign Classification
 ## ME499 - Independent Project, Winter 2021
 Yael Ben Shalom, Northwestern University.<br>
-This module is a part of a [Traffic-Sign Recognition and Classification](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification) project.
+This module is a part of a [Objects Recognition and Classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification) project.
 
 
 ## Module Overview
@@ -14,7 +14,7 @@ I based my program on the German Traffic Sign Recognition Benchmark ([GTSRB](htt
 
 1. Clone the repository, using the following commands:
     ```
-    git clone https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification
+    git clone https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification
     ```
 
 2. Download the dataset and extract it into `./data` directory. The dataset can be found on the [INI Benchmark website](https://benchmark.ini.rub.de/?section=gtsrb&subsection=news), or downloaded directly through [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/traffic-signs-data.zip).
@@ -45,15 +45,15 @@ Run the classification program:
 <br>The program output when running it on the example image:
 
 The loss plot:<br>
-    ![Loss Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Losses%20(100%20Epochs).png)
+    ![Loss Graph](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Losses%20(100%20Epochs).png)
 
 
 The accuracy plot:<br>
-    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Accuracy%20(100%20Epochs).png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Accuracy%20(100%20Epochs).png)
 
 
 The output image (with the correct prediction):<br>
-    ![Accuracy Graph](https://github.com/YaelBenShalom/Traffic-Sign-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Image_Classification.png)
+    ![Accuracy Graph](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/traffic_signs_detection/traffic_signs_classification/images/Image_Classification.png)
 
 
 ## Dataset
