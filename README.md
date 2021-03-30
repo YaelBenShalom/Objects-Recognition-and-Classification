@@ -23,4 +23,4 @@ This module contained 2 parts:
     ![Trash Recognition](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/trash_detection/trash_recognition/images/real-time%20detection2.gif)
 
     As an additional development of the [Recycler Baxter](https://github.com/YaelBenShalom/Recycler-Baxter) project, I used the ML algorithm I implemented in this project to detect and locate the recycable objects sorted by the baxter robot:
-
+    ![Baxter Recognition](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/blob/master/trash_detection/trash_recognition/images/detecting_baxter.gif)
