@@ -1,0 +1,3 @@
+[submodule "trash_detection/trash_recognition/yolov5"]
+	path = trash_detection/trash_recognition/yolov5
+	url = git@github.com:ultralytics/yolov5.git
