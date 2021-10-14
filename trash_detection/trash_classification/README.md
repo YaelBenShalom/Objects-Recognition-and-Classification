@@ -4,8 +4,17 @@ Yael Ben Shalom, Northwestern University.<br>
 This module is a part of a [Objects Recognition and Classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification) project.
 
 
+Table of Contents
+-----------------
+  * [Module Overview](#module-overview)
+  * [User Guide](#user-guide)
+    * [Program Installation](#program-installation)
+    * [Quickstart Guide](#quickstart-guide)
+  * [Dataset](#dataset)
+
+
 ## Module Overview
-In this module I built and trained a neural network to classify different recycable objects using PyTorch.<br>
+In this module I built and trained a neural network to classify different recyclable objects using PyTorch.<br>
 I based my program on the [Garbage Classification Dataset](https://www.kaggle.com/asdasdasasdas/garbage-classification).
 
 

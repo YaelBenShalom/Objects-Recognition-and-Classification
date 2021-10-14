@@ -4,6 +4,15 @@ Yael Ben Shalom, Northwestern University.<br>
 This module is a part of a [Objects Recognition and Classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification) project.
 
 
+Table of Contents
+-----------------
+  * [Module Overview](#module-overview)
+  * [User Guide](#user-guide)
+    * [Program Installation](#program-installation)
+    * [Quickstart Guide](#quickstart-guide)
+  * [Dataset](#dataset)
+
+
 ## Module Overview
 In this module I built and trained a neural network to classify different traffic signs using PyTorch.<br>
 I based my program on the German Traffic Sign Recognition Benchmark ([GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)) dataset.

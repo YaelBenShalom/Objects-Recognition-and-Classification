@@ -4,8 +4,19 @@ Yael Ben Shalom, Northwestern University.<br>
 This module is a part of a [Objects Recognition and Classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification) project.
 
 
+Table of Contents
+-----------------
+  * [Module Overview](#module-overview)
+  * [User Guide](#user-guide)
+    * [Program Installation](#program-installation)
+    * [Data Preprocess](#data-preprocess)
+    * [Training the Model with YoloV5](#training-the-model-with-yolov5)
+    * [Recognizing Recyclable Objects](#recognizing-recyclable-objects)
+  * [Dataset](#dataset)
+
+
 ## Module Overview
-In this module I trained a neural network to detect and classify different recycable objects using PyTorch, YoloV5 and OpenCV.<br>
+In this module I trained a neural network to detect and classify different recyclable objects using PyTorch, YoloV5 and OpenCV.<br>
 I based my program on the Trash Annotations in Context ([TACO](http://tacodataset.org/)) dataset.<br>
 The TACO dataset contains ~60 different classes, but in this project I only detect 10 different objects.
 
@@ -63,7 +74,7 @@ An example of output video:<br>
     The detected images/videos located in `inference/output`.
 
 
-### Recognizing Recycable Objects
+### Recognizing Recyclable Objects
 
 After training the model, run the recognition program:
 1. To recognizing trash in a specific video, copy the video into `./input_video` directory and run the following command from the root directory:
@@ -81,6 +92,6 @@ TACO is a growing image dataset of waste in the wild. It contains images of litt
 The dataset currently contain 60 different classes.<br>
 For convenience, annotations are provided in COCO format.
 
-For more infirmation about the TACO dataset, check out the dataset's [website](http://tacodataset.org/) or the [paper](https://arxiv.org/abs/2003.06975) writen about the dataset and the trash annotation project. 
+For more information about the TACO dataset, check out the dataset's [website](http://tacodataset.org/) or the [paper](https://arxiv.org/abs/2003.06975) written about the dataset and the trash annotation project. 
 
 For download instruction, check out the dataset's [GitHub page](https://github.com/pedropro/TACO).
