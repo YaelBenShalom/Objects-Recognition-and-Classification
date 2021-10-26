@@ -60,8 +60,10 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
     """
 
     if running_mode == 'train':
-        train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
-        valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False)
+        train_loader = DataLoader(
+            train_set, batch_size=batch_size, shuffle=True)
+        valid_loader = DataLoader(
+            valid_set, batch_size=batch_size, shuffle=False)
 
         train_loader = CustomDataLoader(train_loader, to_device)
         valid_loader = CustomDataLoader(valid_loader, to_device)
@@ -71,7 +73,8 @@ def run_model(model, running_mode='train', train_set=None, valid_set=None, test_
                       loss_func=criterion)
 
     else:
-        test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+        test_loader = DataLoader(
+            test_set, batch_size=batch_size, shuffle=False)
         test_loader = CustomDataLoader(test_loader, to_device)
 
         return _test(model, test_loader, criterion)
@@ -131,14 +134,16 @@ def _train(model, train_loader, valid_loader, epoch_num, learning_rate=10e-5, st
     for epoch in range(epoch_num):
         # Train model
         model.train()
-        losses, nums = zip(*[loss_batch(model, loss_func, x, y, optimizer) for x, y in train_loader])
+        losses, nums = zip(
+            *[loss_batch(model, loss_func, x, y, optimizer) for x, y in train_loader])
         train_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)
         train_loss_list.append(train_loss)
 
         # Evaluate model
         model.eval()
         with torch.no_grad():
-            losses, corrects, nums = zip(*[valid_batch(model, loss_func, x, y) for x, y in valid_loader])
+            losses, corrects, nums = zip(
+                *[valid_batch(model, loss_func, x, y) for x, y in valid_loader])
             new_valid_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)
             if (valid_loss is not None) and (valid_loss - new_valid_loss < stop_thr):
                 break
@@ -171,7 +176,8 @@ def _test(model, test_loader, loss_func=nn.CrossEntropyLoss()):
     """
     model.eval()
     with torch.no_grad():
-        losses, corrects, nums = zip(*[valid_batch(model, loss_func, x, y) for x, y in test_loader])
+        losses, corrects, nums = zip(
+            *[valid_batch(model, loss_func, x, y) for x, y in test_loader])
         test_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)
         test_accuracy = np.sum(corrects) / np.sum(nums) * 100
 

@@ -50,7 +50,7 @@ class ResNet(nn.Module):
         # Replace last layer
         num_ftrs = self.network.fc.in_features
         self.network.fc = nn.Linear(num_ftrs, output_layer)
-        
+
     def forward(self, xb):
         x = torch.sigmoid(self.network(xb))
 

@@ -1,5 +1,5 @@
-import numpy as np # linear algebra
-import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import numpy as np  # linear algebra
+import pandas as pd  # data processing, CSV file I/O (e.g. pd.read_csv)
 import cv2
 import matplotlib.pyplot as plt
 
@@ -7,7 +7,8 @@ image_num = '00001'
 
 # Reading image with OpenCV library
 # In this way image is opened already as numpy array
-image_BGR = cv2.imread(f'data/traffic-signs-dataset-in-yolo-format/ts/ts/{image_num}.jpg')
+image_BGR = cv2.imread(
+    f'data/traffic-signs-dataset-in-yolo-format/ts/ts/{image_num}.jpg')
 
 # Showing image shape
 print('Image shape:', image_BGR.shape)  # tuple of (800, 1360, 3)
@@ -32,22 +33,26 @@ with open(f'data/traffic-signs-dataset-in-yolo-format/ts/ts/{image_num}.txt') as
 for i in range(len(lst)):
     # Getting current bounding box coordinates, its width and height
     bb_current = lst[i].split()
-    x_center, y_center = int(float(bb_current[1]) * w), int(float(bb_current[2]) * h)
-    box_width, box_height = int(float(bb_current[3]) * w), int(float(bb_current[4]) * h)
-    
+    x_center, y_center = int(
+        float(bb_current[1]) * w), int(float(bb_current[2]) * h)
+    box_width, box_height = int(
+        float(bb_current[3]) * w), int(float(bb_current[4]) * h)
+
     # Now, from YOLO data format, we can get top left corner coordinates
     # that are x_min and y_min
     x_min = int(x_center - (box_width / 2))
     y_min = int(y_center - (box_height / 2))
 
     # Drawing bounding box on the original image
-    cv2.rectangle(image_BGR, (x_min, y_min), (x_min + box_width, y_min + box_height), [172 , 10, 127], 2)
+    cv2.rectangle(image_BGR, (x_min, y_min), (x_min + box_width,
+                  y_min + box_height), [172, 10, 127], 2)
 
     # Preparing text with label and confidence for current bounding box
     class_current = 'Class: {}'.format(bb_current[0])
 
     # Putting text with label and confidence on the original image
-    cv2.putText(image_BGR, class_current, (x_min, y_min - 5), cv2.FONT_HERSHEY_COMPLEX, 0.7, [172 , 10, 127], 2)
+    cv2.putText(image_BGR, class_current, (x_min, y_min - 5),
+                cv2.FONT_HERSHEY_COMPLEX, 0.7, [172, 10, 127], 2)
 
 ############################################################################
 

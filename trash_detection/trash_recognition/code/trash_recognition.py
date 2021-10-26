@@ -1,19 +1,19 @@
 # %matplotlib inline
+import seaborn as sns
+import pylab
+import random
+import colorsys
+from matplotlib.collections import PatchCollection
+from matplotlib.patches import Polygon, Rectangle
+from pycocotools.coco import COCO
+from PIL import Image, ExifTags
+import matplotlib.pyplot as plt
 import json
 import numpy as np
 import pandas as pd
 import matplotlib
 matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
-import seaborn as sns; sns.set()
-
-from PIL import Image, ExifTags
-from pycocotools.coco import COCO
-from matplotlib.patches import Polygon, Rectangle
-from matplotlib.collections import PatchCollection
-import colorsys
-import random
-import pylab
+sns.set()
 
 
 dataset_path = 'data/data'
@@ -54,7 +54,7 @@ print('Number of images:', nr_images)
 
 # User settings
 image_filepath = 'batch_11/000040.jpg'
-pylab.rcParams['figure.figsize'] = (28,28)
+pylab.rcParams['figure.figsize'] = (28, 28)
 
 # Obtain Exif orientation tag code
 for orientation in ExifTags.TAGS.keys():
@@ -86,14 +86,14 @@ else:
         # Rotate portrait and upside down images if necessary
         if orientation in exif:
             if exif[orientation] == 3:
-                I = I.rotate(180,expand=True)
+                I = I.rotate(180, expand=True)
             if exif[orientation] == 6:
-                I = I.rotate(270,expand=True)
+                I = I.rotate(270, expand=True)
             if exif[orientation] == 8:
-                I = I.rotate(90,expand=True)
+                I = I.rotate(90, expand=True)
 
     # Show image
-    fig,ax = plt.subplots(1)
+    fig, ax = plt.subplots(1)
     plt.axis('off')
     plt.imshow(I)
 
@@ -103,16 +103,18 @@ else:
 
     # Show annotations
     for ann in anns_sel:
-        color = colorsys.hsv_to_rgb(np.random.random(),1,1)
+        color = colorsys.hsv_to_rgb(np.random.random(), 1, 1)
         for seg in ann['segmentation']:
             poly = Polygon(np.array(seg).reshape((int(len(seg)/2), 2)))
-            p = PatchCollection([poly], facecolor=color, edgecolors=color,linewidths=0, alpha=0.4)
+            p = PatchCollection([poly], facecolor=color,
+                                edgecolors=color, linewidths=0, alpha=0.4)
             ax.add_collection(p)
-            p = PatchCollection([poly], facecolor='none', edgecolors=color, linewidths=2)
+            p = PatchCollection([poly], facecolor='none',
+                                edgecolors=color, linewidths=2)
             ax.add_collection(p)
         [x, y, w, h] = ann['bbox']
-        rect = Rectangle((x,y),w,h,linewidth=2,edgecolor=color,
-                         facecolor='none', alpha=0.7, linestyle = '--')
+        rect = Rectangle((x, y), w, h, linewidth=2, edgecolor=color,
+                         facecolor='none', alpha=0.7, linestyle='--')
         ax.add_patch(rect)
 
     plt.savefig("output.png")

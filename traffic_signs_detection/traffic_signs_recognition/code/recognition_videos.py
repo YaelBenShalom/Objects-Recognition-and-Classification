@@ -42,7 +42,8 @@ def set_network(config_path, weights_path):
 
     # Getting names of all YOLO v3 layers
     layers_all = net.getLayerNames()
-    layers_names_output = [layers_all[i[0] - 1] for i in net.getUnconnectedOutLayers()]
+    layers_names_output = [layers_all[i[0] - 1]
+                           for i in net.getUnconnectedOutLayers()]
     # print(f"layers_names_output: {layers_names_output}")
 
     return net, layers_names_output
@@ -147,7 +148,8 @@ def get_predictions(net_output, confidence_threshold, nms_threshold,
                     y_min = int(y_center - (box_height / 2))
 
                     # Adding results into lists
-                    bounding_boxes.append([x_min, y_min, int(box_width), int(box_height)])
+                    bounding_boxes.append(
+                        [x_min, y_min, int(box_width), int(box_height)])
                     confidences.append(float(confidence_current))
                     class_numbers.append(class_current)
 
@@ -155,7 +157,8 @@ def get_predictions(net_output, confidence_threshold, nms_threshold,
                     print(e)
 
     # Implementing non-maximum suppression of given bounding boxes
-    results = cv2.dnn.NMSBoxes(bounding_boxes, confidences, confidence_threshold, nms_threshold)
+    results = cv2.dnn.NMSBoxes(
+        bounding_boxes, confidences, confidence_threshold, nms_threshold)
 
     return results, bounding_boxes, class_numbers
 
@@ -189,14 +192,16 @@ def draw_markers(frame, results, bounding_boxes, scale_factor, mean,
         box_width, box_height = bounding_boxes[i][2], bounding_boxes[i][3]
 
         # Cut fragment with Traffic Sign
-        frame_ts = frame[y_min:(y_min + int(box_height)), x_min:(x_min + int(box_width)), :]
+        frame_ts = frame[y_min:(y_min + int(box_height)),
+                         x_min:(x_min + int(box_width)), :]
 
         if frame_ts.shape[:1] == (0,) or frame_ts.shape[1:2] == (0,):
             pass
 
         else:
             # Getting preprocessed blob with Traffic Sign of needed shape
-            blob_ts = cv2.dnn.blobFromImage(frame_ts, scale_factor, size=(32, 32), swapRB=True, crop=False)
+            blob_ts = cv2.dnn.blobFromImage(
+                frame_ts, scale_factor, size=(32, 32), swapRB=True, crop=False)
 
             blob_ts[0] = blob_ts[0, :, :, :] - mean["mean_image_rgb"]
             blob_ts = blob_ts.transpose(0, 2, 3, 1)
@@ -244,7 +249,7 @@ def main(args):
     """
 
     # Define dataset directory
-    data_dir  = "data"
+    data_dir = "data"
 
     # Finding dataset properties
     labels = class_names_fun(data_dir)
@@ -306,7 +311,8 @@ def main(args):
             # Creating blob in current frame
             scale_factor = 1 / 255.0
             size = (416, 416)
-            blob = cv2.dnn.blobFromImage(frame, scale_factor, size, swapRB=True, crop=False)
+            blob = cv2.dnn.blobFromImage(
+                frame, scale_factor, size, swapRB=True, crop=False)
 
             # Forward pass with blob through output layers
             net.setInput(blob)
@@ -350,7 +356,8 @@ def main(args):
 
     print(f"Number of frames: {current_frame}")
     print(f"Total processing time: {current_time:.5f} seconds")
-    print(f"Average frames per second: {round((current_frame / current_time), 1)}")
+    print(
+        f"Average frames per second: {round((current_frame / current_time), 1)}")
 
 
 if __name__ == "__main__":

@@ -25,7 +25,8 @@ save_image_path = 'data/data/tmp/images/'
 #  'Crisp packet': 42
 
 # Remapping label id from 0-59 to 0-9
-label_transfer = {5: 0, 6: 1, 12: 2, 16: 3, 20: 4, 21: 5, 22: 6, 33: 7, 40: 8, 42: 9}
+label_transfer = {5: 0, 6: 1, 12: 2, 16: 3,
+                  20: 4, 21: 5, 22: 6, 33: 7, 40: 8, 42: 9}
 
 img_ids = data_source.getImgIds()
 
@@ -35,7 +36,7 @@ categories.sort(key=lambda x: x['id'])
 classes = {}
 coco_labels = {}
 coco_labels_inverse = {}
-cd 
+cd
 for c in categories:
     coco_labels[len(classes)] = c['id']
     coco_labels_inverse[c['id']] = len(classes)
@@ -69,7 +70,7 @@ for index, img_id in tqdm.tqdm(enumerate(img_ids), desc='change .json file to .t
         # Define image annotations
         annotations = data_source.loadAnns(annotation_id)
         lines = ''
-        
+
         for annotation in annotations:
             label = coco_labels_inverse[annotation['category_id']]
             print("label: ", label)
@@ -101,11 +102,13 @@ for index, img_id in tqdm.tqdm(enumerate(img_ids), desc='change .json file to .t
 
         fp.writelines(lines)
 
-    # Save the output in tmp folder    
+    # Save the output in tmp folder
     if is_exist:
-        shutil.copy('data/data/{}'.format(img_info['file_name']), os.path.join(save_image_path, save_name))
+        shutil.copy(
+            'data/data/{}'.format(img_info['file_name']), os.path.join(save_image_path, save_name))
     else:
         os.remove(save_path)
 
 # Split data randomly to train, validation, and test folders (with ratio 0.8, 0.1, 0.1)
-splitfolders.ratio('data/data/tmp', output="data/data/taco", seed=1337, ratio=(0.8, 0.1, 0.1))
+splitfolders.ratio('data/data/tmp', output="data/data/taco",
+                   seed=1337, ratio=(0.8, 0.1, 0.1))

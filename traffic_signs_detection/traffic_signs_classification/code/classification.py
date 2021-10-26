@@ -47,9 +47,12 @@ def dataset_properties(trainset_name, validset_name, testset_name, class_names, 
 
     Output: None
     """
-    train_features, train_labels = load_dataset(trainset_name, base_folder=data_dir)
-    valid_features, valid_labels = load_dataset(validset_name, base_folder=data_dir)
-    test_features, test_labels = load_dataset(testset_name, base_folder=data_dir)
+    train_features, train_labels = load_dataset(
+        trainset_name, base_folder=data_dir)
+    valid_features, valid_labels = load_dataset(
+        validset_name, base_folder=data_dir)
+    test_features, test_labels = load_dataset(
+        testset_name, base_folder=data_dir)
 
     # print(f"train_features shape: {train_features.shape}")
     # print(f"train_labels shape: {train_labels.shape}")
@@ -85,7 +88,8 @@ def dataset_properties(trainset_name, validset_name, testset_name, class_names, 
     for i in range(40):
         feature_index = random.randint(0, train_labels.shape[0])
         plt.subplot(6, 8, i + 1)
-        plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9, top=0.92, wspace=0.2, hspace=0.2)
+        plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9,
+                            top=0.92, wspace=0.2, hspace=0.2)
         plt.axis('off')
         plt.imshow(train_features[feature_index])
     plt.suptitle('Random Training Images', fontsize=20)
@@ -97,7 +101,8 @@ def dataset_properties(trainset_name, validset_name, testset_name, class_names, 
     for i in range(classes_num):
         feature_index = random.choice(np.where(train_labels == i)[0])
         plt.subplot(6, 8, i + 1)
-        plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9, top=0.92, wspace=0.2, hspace=0.2)
+        plt.subplots_adjust(left=0.1, bottom=0.03, right=0.9,
+                            top=0.92, wspace=0.2, hspace=0.2)
         plt.axis('off')
         plt.title(class_names[i], fontsize=10)
         plt.imshow(train_features[feature_index])
@@ -124,7 +129,7 @@ def class_names_fun(data_dir):
     for row in class_names_rows:
         label, label_name = row.strip().split(",")
         class_names[int(label)] = label_name
-    
+
     return class_names
 
 
@@ -136,14 +141,17 @@ def plot_training_results(train_loss_list, valid_loss_list, valid_accuracy_list,
       train_loss_list:      list of loss value on the entire training dataset.
       valid_loss_list:      list of loss value on the entire validation dataset.
       valid_accuracy_list:  list of accuracy on the entire validation dataset.
-    
+
     Output: None
     """
     # Plotting training and validation loss vs. epoch number
     plt.figure()
-    plt.plot(range(len(train_loss_list)), train_loss_list, label='Training Loss')
-    plt.plot(range(len(valid_loss_list)), valid_loss_list, label='Validation Loss')
-    plt.title(f'Training and Validation Loss Vs. Epoch Number ({epoch_num} Epochs)')
+    plt.plot(range(len(train_loss_list)),
+             train_loss_list, label='Training Loss')
+    plt.plot(range(len(valid_loss_list)),
+             valid_loss_list, label='Validation Loss')
+    plt.title(
+        f'Training and Validation Loss Vs. Epoch Number ({epoch_num} Epochs)')
     plt.xlabel('Epoch Number')
     plt.ylabel('Loss')
     plt.legend(loc="best")
@@ -152,7 +160,8 @@ def plot_training_results(train_loss_list, valid_loss_list, valid_accuracy_list,
 
     # Plotting validation accuracy vs. epoch number
     plt.figure()
-    plt.plot(range(len(valid_accuracy_list)), valid_accuracy_list, label='Validation Accuracy')
+    plt.plot(range(len(valid_accuracy_list)),
+             valid_accuracy_list, label='Validation Accuracy')
     plt.title(f'Validation Accuracy Vs. Epoch Number ({epoch_num} Epochs)')
     plt.xlabel('Epoch Number')
     plt.ylabel('Accuracy')
@@ -172,7 +181,7 @@ def main(args):
     """
 
     # Define dataset directory
-    data_dir  = "data"
+    data_dir = "data"
 
     # Define dataset files
     trainset_name = "train.p"
@@ -183,7 +192,8 @@ def main(args):
     class_names = class_names_fun(data_dir)
 
     # Visualizing the dataset
-    dataset_properties(trainset_name, validset_name, testset_name, class_names, data_dir)
+    dataset_properties(trainset_name, validset_name,
+                       testset_name, class_names, data_dir)
 
     # Define the device parameters
     torch.manual_seed(1)
@@ -201,7 +211,8 @@ def main(args):
     stop_threshold = 1e-4
 
     # Computing data transformation to normalize data
-    mean = (0.485, 0.456, 0.406)    # from https://pytorch.org/docs/stable/torchvision/transforms.html
+    # from https://pytorch.org/docs/stable/torchvision/transforms.html
+    mean = (0.485, 0.456, 0.406)
     std = (0.229, 0.224, 0.225)     # -"-
     transform = transforms.Compose([transforms.ToTensor(),
                                     transforms.Resize((32, 32)),
@@ -219,15 +230,16 @@ def main(args):
 
         # Train the network
         model, train_loss_list, valid_loss_list, valid_accuracy_list = run_model(model, running_mode='train',
-                                                                                train_set=train_dataset,
-                                                                                valid_set=valid_dataset,
-                                                                                test_set=test_dataset,
-                                                                                batch_size=batch_size, epoch_num=epoch_num,
-                                                                                learning_rate=learning_rate,
-                                                                                stop_thr=stop_threshold,
-                                                                                criterion=criterion, device=device)
+                                                                                 train_set=train_dataset,
+                                                                                 valid_set=valid_dataset,
+                                                                                 test_set=test_dataset,
+                                                                                 batch_size=batch_size, epoch_num=epoch_num,
+                                                                                 learning_rate=learning_rate,
+                                                                                 stop_thr=stop_threshold,
+                                                                                 criterion=criterion, device=device)
         # Plot the results of training the network
-        plot_training_results(train_loss_list, valid_loss_list, valid_accuracy_list, epoch_num)
+        plot_training_results(train_loss_list, valid_loss_list,
+                              valid_accuracy_list, epoch_num)
 
         # Save the trained model
         torch.save(model.state_dict(), model_path)
@@ -236,7 +248,7 @@ def main(args):
     else:
         # Defining the model
         model_path = os.path.abspath(args["model"])
-    
+
         # Load the trained model
         model.load_state_dict(torch.load(model_path, map_location=device))
 
@@ -263,7 +275,8 @@ def main(args):
 
         # Predict the class of the tested image
         prediction = int(predict(model, test_image_transform4d)[0])
-        print(f"Test prediction: {prediction} -> Class: {class_names[prediction]}")
+        print(
+            f"Test prediction: {prediction} -> Class: {class_names[prediction]}")
 
         # Plot the image with the predicted class
         plt.figure()
