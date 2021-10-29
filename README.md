@@ -15,7 +15,7 @@ Yael Ben Shalom, Northwestern University.
 
 This project contains 2 modules:
 
-### [**Traffic sign detection and classification**](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection)
+### Traffic sign detection and classification
 
 In this module I built and trained a neural network to detect and classify different traffic signs using PyTorch, OpenCV and YoloV3.<br>
 This module contained 2 parts:
@@ -28,7 +28,7 @@ An example of traffic detection program output:<br>
 </p>
 
 
-### [**Trash detection, classification, and segmentation**](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/trash_detection)
+### Trash detection, classification, and segmentation
 
 In this module I built and trained a neural network to detect and classify different traffic signs using PyTorch, OpenCV and YoloV5.<br>
 This module contained 2 parts:
