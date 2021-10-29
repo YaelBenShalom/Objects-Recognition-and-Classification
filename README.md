@@ -19,8 +19,8 @@ This project contains 2 modules:
 
 In this module I built and trained a neural network to detect and classify different traffic signs using PyTorch, OpenCV and YoloV3.<br>
 This module contained 2 parts:
-- [traffic sign classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification) - Were I build and trained a neural network to classify different traffic-signs images.
-- [traffic sign detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition) - Were I trained neural network to detect different traffic-signs in an image/video.
+- [Traffic sign classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification) - Were I build and trained a neural network to classify different traffic-signs images.
+- [Traffic sign detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition) - Were I trained neural network to detect different traffic-signs in an image/video.
 
 An example of traffic detection program output:<br>
 <p align="center">
@@ -32,8 +32,8 @@ An example of traffic detection program output:<br>
 
 In this module I built and trained a neural network to detect and classify different traffic signs using PyTorch, OpenCV and YoloV5.<br>
 This module contained 2 parts:
-- [trash classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification) - Were I build and trained a neural network to classify different recyclable objects' images.
-- [trash detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition) - Were I trained neural network to detect different recyclable objects in an image/video.
+- [Trash classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification) - Were I build and trained a neural network to classify different recyclable objects' images.
+- [Trash detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition) - Were I trained neural network to detect different recyclable objects in an image/video.
 
 An example of trash detection program output:<br>
 <p align="center">
