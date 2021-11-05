@@ -1,8 +1,8 @@
 # Objects Recognition and Classification
 
-## ME499 - Independent Project, Winter 2021
+Independent Project (ME499), Northwestern University, Winter 2021.<br>
+Take a look at my [portfolio post](https://yaelbenshalom.github.io/ML_object_detection/index.html) for more information about the project.
 
-Yael Ben Shalom, Northwestern University.
 
 ## Table of Contents
 
