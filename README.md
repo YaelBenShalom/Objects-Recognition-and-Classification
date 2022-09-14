@@ -32,8 +32,8 @@ An example of traffic detection program output:<br>
 
 In this module I built and trained a neural network to detect and classify different traffic signs using PyTorch, OpenCV and YoloV5.<br>
 This module contained 2 parts:
-- [Trash classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_classification) - Were I build and trained a neural network to classify different recyclable objects' images.
-- [Trash detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/traffic_signs_detection/traffic_signs_recognition) - Were I trained neural network to detect different recyclable objects in an image/video.
+- [Trash classification](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/trash_detection/trash_classification) - Were I build and trained a neural network to classify different recyclable objects' images.
+- [Trash detection](https://github.com/YaelBenShalom/Objects-Recognition-and-Classification/tree/master/trash_detection/trash_recognition) - Were I trained neural network to detect different recyclable objects in an image/video.
 
 An example of trash detection program output:<br>
 <p align="center">
